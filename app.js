@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
+require("dotenv").config();
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,10 +32,9 @@ app.post("/", (req, res) => {
   const url = `https://us5.api.mailchimp.com/3.0/lists/218cfe5f3c`;
   const options = {
     method: "POST",
-    auth: "brett:1b17fcac1b7816a286c246bf5cd89e16-us5",
+    auth: `brett:${process.env.API_KEY}`,
   };
   const request = https.request(url, options, function (response) {
-    console.log(response);
     if (response.statusCode == 200) {
       res.sendFile(__dirname + "/success.html");
     } else {
@@ -48,9 +48,3 @@ app.post("/", (req, res) => {
 app.listen(3000, function () {
   console.log(`Server is running on port 3000`);
 });
-
-//api key
-//1b17fcac1b7816a286c246bf5cd89e16-us5
-
-//list id
-//218cfe5f3c
